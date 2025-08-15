@@ -63,7 +63,7 @@ export const eventData = [
   {
     id: 2,
     title: "Digital Marketing Workshop",
-    dateTime: "2025-08-16T08:00:00",
+    dateTime: "2025-08-16T14:00:00",
     overview: "Learn the latest digital marketing strategies and tools. This hands-on workshop covers SEO, social media marketing, and content creation.",
     instructions: [
       "Bring a notebook for taking notes",
