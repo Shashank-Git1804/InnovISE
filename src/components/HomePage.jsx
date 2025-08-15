@@ -364,7 +364,7 @@ const HomePage = () => {
             </div>
           </div>
           <div className="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400 text-xs sm:text-sm">
-            <pre>&copy; 2025 InnovISE. All rights reserved. | <br />Developed by Shashank P <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem',alignItems:'center', marginTop:'0.5rem' }}><a href=''><LinkedinIcon className='w-3 h-3'/></a> <a href=''><GithubIcon className='w-3 h-3'/></a></div></pre>
+            <pre>&copy; 2025 InnovISE. All rights reserved. | <br />Developed by Shashank P <div style={{ display: 'flex', justifyContent: 'center', gap: '1rem',alignItems:'center', marginTop:'0.5rem' }}><a href='https://www.linkedin.com/in/shashank-p1804?utm_source=share&utm_campaign=share_via&utm_content=profile&utm_medium=android_app'><LinkedinIcon className='w-3 h-3'/></a> <a href='https://github.com/Shashank-Git1804'><GithubIcon className='w-3 h-3'/></a></div></pre>
           </div>
         </div>
       </footer>
