@@ -26,14 +26,36 @@ const HomePage = () => {
     expired: [],
   });
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  // useEffect(() => {
+  //   const updateEvents = () => {
+  //     setEvents({
+  //       upcoming: getEventsByStatus("upcoming"),
+  //       ongoing: getEventsByStatus("ongoing"),
+  //       expired: getEventsByStatus("expired"),
+  //     });
+  //   };
+  //   updateEvents();
+  //   const interval = setInterval(updateEvents, 60000);
+  //   return () => clearInterval(interval);
+  // }, []);
+
   useEffect(() => {
     const updateEvents = () => {
+      const upcoming = getEventsByStatus("upcoming")
+        .filter((event) => event.dateTime || event.startTime) // only keep events with valid date
+        .sort((a, b) => {
+          const dateA = new Date(a.dateTime || a.startTime);
+          const dateB = new Date(b.dateTime || b.startTime);
+          return dateA - dateB; // ascending: soonest first
+        });
+
       setEvents({
-        upcoming: getEventsByStatus("upcoming"),
+        upcoming,
         ongoing: getEventsByStatus("ongoing"),
         expired: getEventsByStatus("expired"),
       });
     };
+
     updateEvents();
     const interval = setInterval(updateEvents, 60000);
     return () => clearInterval(interval);
@@ -197,13 +219,20 @@ const HomePage = () => {
                     {section.data.length} Events
                   </div>
                 </div>
+
                 {section.data.length > 0 ? (
                   <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
-                    {section.data.map((event) => (
+                    {section.data.map((event, eventIdx) => (
                       <EventCard
                         key={event.id}
                         event={event}
                         status={section.status}
+                        className={
+                          // 🔥 Highlight only the first upcoming event
+                          section.status === "upcoming" && eventIdx === 0
+                            ? "border-2 border-red-500 shadow-lg"
+                            : ""
+                        }
                       />
                     ))}
                   </div>
@@ -371,7 +400,7 @@ const HomePage = () => {
               </a>
             </div>
           </motion.div> */}
-          {/* //NOTE - Do not delete */}
+            {/* //NOTE - Do not delete */}
           </div>
         </div>
       </section>
