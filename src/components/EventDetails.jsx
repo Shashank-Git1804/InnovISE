@@ -17,6 +17,7 @@ import {
   ClipboardList,
   Layers,
   Package,
+  Clock10Icon,
 } from "lucide-react";
 import {
   eventData,
@@ -225,7 +226,7 @@ const EventDetails = () => {
                 {event.title}
               </h1>
               <button
-                onClick={() => downloadFile(event.poster)}
+                onClick={() => downloadFile(event.poster_pdf)}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex items-center space-x-2 transition-colors"
               >
                 <Download className="w-4 h-4" />
@@ -233,13 +234,17 @@ const EventDetails = () => {
               </button>
             </div>
 
-            <div className="flex items-center text-gray-600 mb-6">
-              <Calendar className="w-5 h-5 mr-3" />
+            <div className="flex items-center text-gray-600 mb-6 gap-3.5">
+              <Calendar className="w-5 h-5 mr-2" />
               <span>{formatDate(event.dateTime)}</span>
+            </div>
+            <div className="flex items-center text-gray-600 mb-6 gap-3.5">
+              <Clock10Icon className="w-5 h-5 mr-2"/>
+              <span>Duration : {event.duration}</span>
             </div>
 
             <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed mb-6">
-              {event.description}
+              {event.overview}
             </p>
 
             {/* Countdown */}
@@ -381,7 +386,7 @@ const EventDetails = () => {
           >
             <div className="absolute top-4 right-4 flex space-x-2 z-10">
               <button
-                onClick={() => downloadFile(event.poster)}
+                onClick={() => downloadFile(event.poster_pdf)}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-3 py-1 rounded-lg flex items-center space-x-1 transition-colors"
               >
                 <Download className="w-4 h-4" />

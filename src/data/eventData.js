@@ -4,6 +4,7 @@ export const eventData = [
     id: 1,
     title: "DecodeX – Tech Escape Room",
     dateTime: "2025-08-22T14:00:00",
+    duration : "2 hours",
     overview: "A round-based coding puzzle challenge where teams race against the clock to unlock the final solution.",
     instructions: [
       "Teams must consist of 2–3 members.",
@@ -42,6 +43,7 @@ export const eventData = [
       "DON'T: Argue with coordinators over rules; their decision is final.",
       "DON'T: Seek external assistance or use unauthorized devices."
     ],
+    poster_pdf: "/poster_pdf/DecodeX.pdf",
     poster: "/images/DecodeX_Poster.png",
     googleFormLink: "https://docs.google.com/forms/d/e/1FAIpQLScGdzhEAHIFk7jdWxlDP5cMJnqLfh1L_Mgz7b39x1wj06GvaQ/viewform",
     qrCodeImage: "/images/DecodeX.jpg",
@@ -63,7 +65,8 @@ export const eventData = [
   {
     id: 2,
     title: "Digital Marketing Workshop",
-    dateTime: "2025-08-16T14:00:00",
+    dateTime: "2025-08-18T14:00:00",
+    duration: "1 Week",
     overview: "Learn the latest digital marketing strategies and tools. This hands-on workshop covers SEO, social media marketing, and content creation.",
     instructions: [
       "Bring a notebook for taking notes",
@@ -96,9 +99,10 @@ export const eventData = [
       "DON'T: Dominate conversations",
       "DON'T: Share confidential business information"
     ],
-    poster: "/images/marketing-poster.jpg",
-    googleFormLink: "https://forms.google.com/marketing-registration",
-    qrCodeImage: "/images/marketing-qr.png",
+    poster_pdf: "/poster_pdf/anti_ragging.pdf",
+    poster: "/images/anti-ragging_poster.png",
+    googleFormLink: "https://docs.google.com/forms/d/e/1FAIpQLScOiznLK3i1VlgmrityVkKHuoynaCFYFpyx7nSgT4qvUU9GEQ/viewform",
+    qrCodeImage: "/images/Anti-ragging.jpg",
     winners: [
       {
         place: "1st",
@@ -150,6 +154,7 @@ export const eventData = [
       "DON'T: Use external datasets not provided",
       "DON'T: Submit after the deadline"
     ],
+    poster_pdf: "/poster_pdf/anti_ragging.pdf",
     poster: "/images/aiml-poster.jpg",
     googleFormLink: "https://forms.google.com/aiml-registration",
     qrCodeImage: "/images/aiml-qr.png",
@@ -205,6 +210,7 @@ export const eventData = [
       "DON'T: Copy code without understanding",
       "DON'T: Disrupt others during focused work time"
     ],
+    poster_pdf: "/poster_pdf/anti_ragging.pdf",
     poster: "/images/webdev-poster.jpg",
     googleFormLink: "https://forms.google.com/webdev-registration",
     qrCodeImage: "/images/webdev-qr.png",
