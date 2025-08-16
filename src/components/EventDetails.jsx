@@ -18,6 +18,11 @@ import {
   Layers,
   Package,
   Clock10Icon,
+  Upload,
+  Mic,
+  Palette,
+  FileText,
+  Scale,
 } from "lucide-react";
 import {
   eventData,
@@ -80,11 +85,15 @@ const EventDetails = () => {
   const [showResults, setShowResults] = useState(false);
   const [showPoster, setShowPoster] = useState(false);
 
+  const getAllWinners = (event) => {
+    if (!event?.winners) return [];
+    if (Array.isArray(event.winners)) return event.winners;
+    return [...(event.winners.event_1 || []), ...(event.winners.event_2 || [])];
+  };
+
   const hasResults = (event) => {
-    if (!event || !Array.isArray(event.winners) || event.winners.length === 0) {
-      return false;
-    }
-    return event.winners.some(
+    const winners = getAllWinners(event);
+    return winners.some(
       (w) =>
         w.teamName &&
         w.teamName.trim() !== "" &&
@@ -239,8 +248,10 @@ const EventDetails = () => {
               <span>{formatDate(event.dateTime)}</span>
             </div>
             <div className="flex items-center text-gray-600 mb-6 gap-3.5">
-              <Clock10Icon className="w-5 h-5 mr-2"/>
-              <span>Duration : {event.duration}</span>
+              <Clock10Icon className="w-5 h-5 mr-2" />
+              <span>
+                Duration : {event.duration ? event.duration : "To be Notified"}
+              </span>
             </div>
 
             <p className="text-base sm:text-lg lg:text-xl text-gray-700 leading-relaxed mb-6">
@@ -314,35 +325,227 @@ const EventDetails = () => {
           </div>
         </motion.div>
 
-        {/* Event Sections */}
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Section
-            title="Instructions"
-            icon={<AlertCircle className="w-6 h-6 text-blue-600 mr-3" />}
-            items={event.instructions}
-          />
-          <Section
-            title="Do's & Don'ts"
-            icon={<ListChecks className="w-6 h-6 text-orange-500 mr-3" />}
-            items={event.dosAndDonts}
-            isDosDonts
-          />
-          <Section
-            title="General Rules"
-            icon={<ClipboardList className="w-6 h-6 text-teal-500 mr-3" />}
-            items={event.generalRules}
-          />
-          <Section
-            title="Event Structure"
-            icon={<Layers className="w-6 h-6 text-indigo-600 mr-3" />}
-            items={event.eventStructure}
-          />
-          <Section
-            title="Prerequisites"
-            icon={<Package className="w-6 h-6 text-pink-500 mr-3" />}
-            items={event.prerequisites}
-          />
-        </div>
+        {/* 🔹 Main Event Sections (Top-Level) */}
+        {(event.instructions ||
+          event.generalRules ||
+          event.eventStructure ||
+          event.prerequisites ||
+          event.dosAndDonts) && (
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+            {event.instructions && (
+              <Section
+                title="Instructions"
+                icon={<AlertCircle className="w-6 h-6 text-blue-600 mr-3" />}
+                items={event.instructions}
+              />
+            )}
+            {event.dosAndDonts && (
+              <Section
+                title="Do's & Don'ts"
+                icon={<ListChecks className="w-6 h-6 text-orange-500 mr-3" />}
+                items={event.dosAndDonts}
+                isDosDonts
+              />
+            )}
+            {event.generalRules && (
+              <Section
+                title="General Rules"
+                icon={<ClipboardList className="w-6 h-6 text-teal-500 mr-3" />}
+                items={event.generalRules}
+              />
+            )}
+            {event.eventStructure && (
+              <Section
+                title="Event Structure"
+                icon={<Layers className="w-6 h-6 text-indigo-600 mr-3" />}
+                items={event.eventStructure}
+              />
+            )}
+            {event.prerequisites && (
+              <Section
+                title="Prerequisites"
+                icon={<Package className="w-6 h-6 text-pink-500 mr-3" />}
+                items={event.prerequisites}
+              />
+            )}
+          </div>
+        )}
+
+        {/* 🔹 Pre-submission & On-Spot Events (Anti-Ragging Style) */}
+        {event.eventCategories && (
+          <div className="mt-8 grid grid-cols-1 md:grid-cols-2 gap-6">
+            {/* Pre-submission Events */}
+            {event.eventCategories.preSubmissionEvents && (
+              <div className="border rounded-xl p-6 bg-white shadow-md">
+                <div className="flex items-center mb-4">
+                  <Upload className="w-6 h-6 text-purple-600 mr-3" />
+                  <h4 className="text-lg sm:text-xl font-bold text-gray-900">
+                    Pre-Submission Events
+                  </h4>
+                </div>
+                <ul className="space-y-4">
+                  {event.eventCategories.preSubmissionEvents.map((e, idx) => (
+                    <li
+                      key={idx}
+                      className="p-4 border rounded-lg bg-gradient-to-r from-purple-50 to-pink-50"
+                    >
+                      <div className="flex items-center mb-2">
+                        <Upload className="w-4 h-4 text-purple-500 mr-2" />
+                        <p className="font-bold text-gray-900">{e.name}</p>
+                      </div>
+                      {e.theme && (
+                        <p className="text-sm text-gray-700">
+                          Theme: {e.theme}
+                        </p>
+                      )}
+                      {e.format && (
+                        <p className="text-sm text-gray-700">
+                          Format: {e.format}
+                        </p>
+                      )}
+                      {e.duration && (
+                        <p className="text-sm text-gray-700">
+                          Duration: {e.duration}
+                        </p>
+                      )}
+                      {e.deadline && (
+                        <p className="text-sm text-gray-700">
+                          Deadline: {e.deadline}
+                        </p>
+                      )}
+                      {e.judgingCriteria && (
+                        <p className="text-sm text-gray-700">
+                          Criteria: {e.judgingCriteria.join(", ")}
+                        </p>
+                      )}
+                      {e.submissionLink && (
+                        <a
+                          href={e.submissionLink}
+                          className="text-blue-600 font-medium underline text-sm flex items-center gap-2 mt-2"
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <Upload className="w-4 h-4 text-blue-600" />
+                          Submit Here
+                        </a>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+
+            {/* On-Spot Events */}
+            {event.eventCategories.onSpotEvents && (
+              <div className="border rounded-xl p-6 bg-white shadow-md">
+                <div className="flex items-center mb-4">
+                  <Mic className="w-6 h-6 text-red-600 mr-3" />
+                  <h4 className="text-lg sm:text-xl font-bold text-gray-900">
+                    On-Spot Events
+                  </h4>
+                </div>
+                <ul className="space-y-4">
+                  {event.eventCategories.onSpotEvents.map((e, idx) => (
+                    <li
+                      key={idx}
+                      className="p-4 border rounded-lg bg-gradient-to-r from-yellow-50 to-orange-50"
+                    >
+                      <div className="flex items-center mb-2">
+                        <Mic className="w-4 h-4 text-red-500 mr-2" />
+                        <p className="font-bold text-gray-900">{e.name}</p>
+                      </div>
+                      {e.timeLimit && (
+                        <p className="text-sm text-gray-700">
+                          Time Limit: {e.timeLimit}
+                        </p>
+                      )}
+                      {e.teamSize && (
+                        <p className="text-sm text-gray-700">
+                          Team Size: {e.teamSize}
+                        </p>
+                      )}
+                      {e.theme && (
+                        <p className="text-sm text-gray-700">
+                          Theme: {e.theme}
+                        </p>
+                      )}
+                      {e.categories && (
+                        <p className="text-sm text-gray-700">
+                          Categories: {e.categories.join(" | ")}
+                        </p>
+                      )}
+                      {e.judgingCriteria && (
+                        <p className="text-sm text-gray-700">
+                          Criteria: {e.judgingCriteria.join(", ")}
+                        </p>
+                      )}
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 🔹 Sub-Events (like AI/ML, Web Dev Bootcamp, DecodeX) */}
+        {event.event_1 && event.event_1.length > 0 && (
+          <div className="mt-10 space-y-10">
+            {event.event_1.map((subEvent, idx) => (
+              <div
+                key={idx}
+                className="border rounded-xl bg-white shadow-md p-6"
+              >
+                <h3 className="text-xl font-bold text-gray-900 mb-4">
+                  {subEvent.name}
+                </h3>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                  {subEvent.instructions && (
+                    <Section
+                      title="Instructions"
+                      icon={
+                        <AlertCircle className="w-6 h-6 text-blue-600 mr-3" />
+                      }
+                      items={subEvent.instructions}
+                    />
+                  )}
+                  {subEvent.dosAndDonts && (
+                    <Section
+                      title="Do's & Don'ts"
+                      icon={
+                        <ListChecks className="w-6 h-6 text-orange-500 mr-3" />
+                      }
+                      items={subEvent.dosAndDonts}
+                      isDosDonts
+                    />
+                  )}
+                  {subEvent.generalRules && (
+                    <Section
+                      title="General Rules"
+                      icon={
+                        <ClipboardList className="w-6 h-6 text-teal-500 mr-3" />
+                      }
+                      items={subEvent.generalRules}
+                    />
+                  )}
+                  {subEvent.eventStructure && (
+                    <Section
+                      title="Event Structure"
+                      icon={<Layers className="w-6 h-6 text-indigo-600 mr-3" />}
+                      items={subEvent.eventStructure}
+                    />
+                  )}
+                  {subEvent.prerequisites && (
+                    <Section
+                      title="Prerequisites"
+                      icon={<Package className="w-6 h-6 text-pink-500 mr-3" />}
+                      items={subEvent.prerequisites}
+                    />
+                  )}
+                </div>
+              </div>
+            ))}
+          </div>
+        )}
       </div>
 
       {/* QR Code Modal */}
@@ -411,113 +614,163 @@ const EventDetails = () => {
       )}
 
       {showResults && status === "expired" && hasResults(event) && (
-  <div
-    className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
-    aria-modal="true"
-    role="dialog"
-  >
-    <motion.div
-      initial={{ scale: 0.95, opacity: 0 }}
-      animate={{ scale: 1, opacity: 1 }}
-      className="bg-white rounded-lg shadow-lg p-6 max-w-2xl w-full"
-    >
-      {/* Header */}
-      <div className="flex items-center justify-between mb-6">
-        <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
-          🏆 Winners
-        </h3>
-        <button
-          onClick={() => setShowResults(false)}
-          className="text-gray-400 hover:text-gray-600 text-lg sm:text-xl"
-        >
-          ✕
-        </button>
-      </div>
-
-      {/* Winners List */}
-      <div className="space-y-6">
-        {event.winners.map((winner, index) => (
-          <div
-            key={index}
-            className="border border-gray-200 rounded-xl p-4 sm:p-6 bg-gradient-to-r from-yellow-50 to-orange-50"
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4">
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={{ opacity: 1, scale: 1 }}
+            exit={{ opacity: 0, scale: 0.95 }}
+            className="bg-white rounded-2xl shadow-xl w-full max-w-4xl max-h-[90vh] overflow-y-auto p-4 sm:p-6 lg:p-8 scrollbar-thin scrollbar-thumb-gray-200 scrollbar-track-gray-100 scrollbar-thumb-rounded transition-all"
           >
-            <div className="flex items-center justify-between mb-4">
-              {/* Place Badge */}
-              <div className="flex items-center space-x-3">
-                <div
-                  className={`w-10 h-10 sm:w-12 sm:h-12 rounded-full flex items-center justify-center text-white font-bold text-base sm:text-lg md:text-xl ${
-                    winner.place === "1st"
-                      ? "bg-yellow-500"
-                      : winner.place === "2nd"
-                      ? "bg-gray-400"
-                      : "bg-orange-600"
-                  }`}
-                >
-                  {winner.place === "1st"
-                    ? "🥇"
-                    : winner.place === "2nd"
-                    ? "🥈"
-                    : "🥉"}
-                </div>
-                <div>
-                  <h4 className="text-base sm:text-lg md:text-xl font-bold text-gray-900">
-                    {winner.place} Place
-                  </h4>
-                  <p className="text-sm sm:text-base md:text-lg font-semibold text-gray-700">
-                    {winner.teamName || "Team Name Coming Soon"}
-                  </p>
-                </div>
-              </div>
-
-              {/* Certificate Button */}
-              {winner.certificate ? (
-                <button
-                  onClick={() => downloadFile(winner.certificate)}
-                  className="bg-blue-600 hover:bg-blue-700 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg flex items-center space-x-2 text-xs sm:text-sm md:text-base transition-colors"
-                >
-                  <Download className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>Certificate</span>
-                </button>
-              ) : (
-                <button
-                  disabled
-                  className="bg-gray-400 text-white px-3 sm:px-4 py-1.5 sm:py-2 rounded-lg flex items-center space-x-2 text-xs sm:text-sm md:text-base cursor-not-allowed"
-                >
-                  <Download className="w-3 h-3 sm:w-4 sm:h-4" />
-                  <span>Coming Soon</span>
-                </button>
-              )}
+            {/* Header */}
+            <div className="flex flex-wrap items-center justify-between mb-6 gap-3">
+              <h3 className="text-xl sm:text-2xl md:text-3xl font-bold text-gray-900">
+                🏆 Winners
+              </h3>
+              <button
+                onClick={() => setShowResults(false)}
+                className="bg-gray-200 hover:bg-gray-300 px-3 py-1 rounded-full text-gray-700 font-semibold transition"
+              >
+                ✕
+              </button>
             </div>
 
-            {/* Team Members */}
-            <div>
-              <p className="text-xs sm:text-sm md:text-base text-gray-600 mb-2">
-                Team Members:
-              </p>
-              {Array.isArray(winner.members) && winner.members.length > 0 ? (
-                <div className="flex flex-wrap gap-2">
-                  {winner.members.map((member, memberIndex) => (
-                    <span
-                      key={memberIndex}
-                      className="bg-white px-2 sm:px-3 py-0.5 sm:py-1 rounded-full text-xs sm:text-sm text-gray-700 border"
-                    >
-                      {member}
-                    </span>
-                  ))}
-                </div>
-              ) : (
-                <p className="text-xs sm:text-sm text-gray-500 italic">
-                  Members info coming soon
-                </p>
-              )}
-            </div>
-          </div>
-        ))}
-      </div>
-    </motion.div>
-  </div>
-)}
+            {/* Grouped Winners */}
+            {Object.entries(event.winners).map(([categoryKey, winnersList]) => {
+              const formatTitle = (key) => {
+                const knownLabels = {
+                  preSubmissionEvents: "📤 Pre-Submission Events",
+                  onSpotEvents: "🎭 On-Spot Events",
+                };
+                if (knownLabels[key]) return knownLabels[key];
+                if (key.startsWith("Event_")) {
+                  return `🎯 ${key.replace("Event_", "Event ")} Results`;
+                }
+                return (
+                  "🏅 " +
+                  key
+                    .replace(/([A-Z])/g, " $1")
+                    .replace(/^./, (s) => s.toUpperCase())
+                    .trim()
+                );
+              };
 
+              const medalMap = {
+                Winner: "🥇",
+                "Runner-up": "🥈",
+                "2nd Runner-up": "🥉",
+              };
+
+              // Styles for each card based on place
+              const cardStyles = {
+                Winner:
+                  "bg-gradient-to-r from-yellow-200 to-yellow-400 shadow-lg border-yellow-300",
+                "Runner-up":
+                  "bg-gradient-to-r from-gray-200 to-gray-400 shadow-md border-gray-300",
+                "2nd Runner-up":
+                  "bg-gradient-to-r from-orange-200 to-orange-400 shadow-md border-orange-300",
+              };
+
+              const memberBadgeStyles = {
+                Winner: "bg-yellow-100 text-yellow-800 border-yellow-300",
+                "Runner-up": "bg-gray-100 text-gray-800 border-gray-300",
+                "2nd Runner-up":
+                  "bg-orange-100 text-orange-800 border-orange-300",
+              };
+
+              return (
+                <div key={categoryKey} className="mb-10">
+                  {/* //NOTE - for result heading(its not needed) */}
+                  {/* <h4 className="text-lg sm:text-2xl font-bold text-gray-800 mb-6">
+                    {formatTitle(categoryKey)}
+                  </h4> */}
+
+                  <div className="space-y-6">
+                    {winnersList.map((winner, idx) => (
+                      <div
+                        key={idx}
+                        className={`border rounded-2xl p-5 sm:p-7 ${
+                          cardStyles[winner.place] || "bg-white shadow-sm"
+                        } transition transform hover:scale-105`}
+                      >
+                        {/* Winner Info */}
+                        <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between mb-4 gap-3">
+                          <div>
+                            <h2 className="text-lg sm:text-2xl font-bold text-gray-900">
+                              {medalMap[winner.place]
+                                ? `${medalMap[winner.place]} `
+                                : ""}
+                              {winner.place || "🏅 Position not decided"} –{" "}
+                              {winner.event || "Event name pending 🕛"}
+                            </h2>
+                            <h1
+                              className={`px-4 py-2 font-bold text-lg sm:text-xl rounded-full m-1.5 flex justify-center align-middle cursor-pointer ${
+                                cardStyles[winner.place]?.includes("yellow")
+                                  ? "text-yellow-700 bg-yellow-100 border-yellow-300"
+                                  : cardStyles[winner.place]?.includes("gray")
+                                  ? "text-gray-800 bg-gray-100 border-gray-300"
+                                  : "text-orange-800 bg-orange-100 border-orange-300"
+                              } border`}
+                            >
+                              {winner.teamName || "Team name pending 🕛"}
+                            </h1>
+                          </div>
+
+                          {/* Certificate Button */}
+                          {winner.certificate ? (
+                            <button
+                              onClick={() => downloadFile(winner.certificate)}
+                              className="bg-blue-600 hover:bg-blue-700 text-white px-4 py-2 rounded-lg flex cursor-pointer items-center justify-center text-sm sm:text-base transition"
+                            >
+                              <Download className="w-4 h-4 mr-2" />
+                              Certificate
+                            </button>
+                          ) : (
+                            <button
+                              disabled
+                              className="bg-gray-400 text-white px-4 py-2 rounded-lg flex items-center justify-center text-sm sm:text-base"
+                            >
+                              <span className="italic cursor-not-allowed">
+                                Certificate pending
+                              </span>
+                            </button>
+                          )}
+                        </div>
+
+                        {/* Team Members */}
+                        {Array.isArray(winner.members) &&
+                        winner.members.length > 0 ? (
+                          <div className="mb-2">
+                            <p className="font-medium text-gray-800 mb-2 text-sm sm:text-base">
+                              Team Members:
+                            </p>
+                            <div className="flex flex-wrap gap-2 cursor-pointer">
+                              {winner.members.map((member, idx) => (
+                                <span
+                                  key={idx}
+                                  className={`px-3 py-1 text-sm sm:text-base rounded-full border ${
+                                    memberBadgeStyles[winner.place] ||
+                                    "bg-gray-100 text-gray-800 border-gray-300"
+                                  } transition transform hover:scale-105`}
+                                >
+                                  {member}
+                                </span>
+                              ))}
+                            </div>
+                          </div>
+                        ) : (
+                          <p className="text-gray-500 italic text-sm sm:text-base">
+                            👥 Team members info not available
+                          </p>
+                        )}
+                      </div>
+                    ))}
+                  </div>
+                </div>
+              );
+            })}
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 };

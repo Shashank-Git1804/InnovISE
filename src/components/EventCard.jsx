@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { motion } from 'framer-motion';
-import { Calendar, Clock, MapPin, Users, Trophy } from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, Trophy,Clock10Icon } from 'lucide-react';
 import { getTimeUntilEvent } from '../data/eventData';
 import { useNavigate } from 'react-router-dom';
 
@@ -92,9 +92,13 @@ const EventCard = ({ event, status }) => {
           <Calendar className="w-4 h-4 mr-2" />
           <span className="text-sm">{formatDate(event.dateTime)}</span>
         </div>
+        <div className="flex items-center text-gray-600 mb-3">
+          <Clock10Icon className="w-4 h-4 mr-2"/>
+          <span>Duration : {event.duration? event.duration : "To be announced"}</span>
+        </div>
 
         <p className="text-gray-600 text-sm mb-4 line-clamp-2">
-          {event.description}
+          {event.overview}
         </p>
 
         {/* Countdown Timer for Upcoming Events */}
