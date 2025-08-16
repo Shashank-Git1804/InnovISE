@@ -4,7 +4,7 @@ export const eventData = [
     id: 1,
     title: "DecodeX – Tech Escape Room",
     dateTime: "2025-08-22T14:00:00",
-    duration: "2 hours",
+    duration: "2 Hours",
     overview:
       "A round-based coding puzzle challenge where teams race against the clock to unlock the final solution.",
 
@@ -505,27 +505,43 @@ export const eventData = [
   // },
 ];
 
-// Helper function to determine event status
-export const getEventStatus = (dateTime) => {
-  const now = new Date();
-  const eventDate = new Date(dateTime);
-  const twelveHoursBefore = new Date(eventDate.getTime() - 12 * 60 * 60 * 1000);
+// Convert human-readable duration (e.g. "1 Week", "2 Days", "3 Hours") → ms
+const parseDuration = (durationStr) => {
+  if (!durationStr) return 0;
 
-  if (now < twelveHoursBefore) {
+  const [numStr, unitRaw] = durationStr.split(" ");
+  const num = parseInt(numStr, 10) || 1;
+  const unit = unitRaw.toLowerCase();
+
+  if (unit.includes("week")) return num * 7 * 24 * 60 * 60 * 1000;
+  if (unit.includes("day")) return num * 24 * 60 * 60 * 1000;
+  if (unit.includes("hour")) return num * 60 * 60 * 1000;
+  if (unit.includes("minute")) return num * 60 * 1000;
+
+  return 0;
+};
+
+export const getEventStatus = (event) => {
+  const now = new Date();
+  const eventStart = new Date(event.dateTime || event.startTime);
+  const durationMs = parseDuration(event.duration);
+  const eventEnd = new Date(eventStart.getTime() + durationMs);
+
+  if (now < eventStart) {
     return "upcoming";
-  } else if (now >= twelveHoursBefore && now < eventDate) {
+  } else if (now >= eventStart && now < eventEnd) {
     return "ongoing";
   } else {
     return "expired";
   }
 };
 
-// Helper function to get events by status
+// Helper: get events by status
 export const getEventsByStatus = (status) => {
-  return eventData.filter((event) => getEventStatus(event.dateTime) === status);
+  return eventData.filter((event) => getEventStatus(event) === status);
 };
 
-// Helper function to get time until event
+// Helper: countdown until event start
 export const getTimeUntilEvent = (dateTime) => {
   const now = new Date();
   const eventDate = new Date(dateTime);
