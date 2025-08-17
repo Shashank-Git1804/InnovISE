@@ -3,7 +3,7 @@ export const eventData = [
   {
     id: 1,
     title: "DecodeX – Tech Escape Room",
-    dateTime: "2025-08-22T14:00:00",
+    dateTime: "2025-08-17T04:00:00",
     duration: "2 Hours",
     overview:
       "A round-based coding puzzle challenge where teams race against the clock to unlock the final solution.",
@@ -511,7 +511,7 @@ const parseDuration = (durationStr) => {
 
   const [numStr, unitRaw] = durationStr.split(" ");
   const num = parseInt(numStr, 10) || 1;
-  const unit = unitRaw.toLowerCase();
+  const unit = (unitRaw || "").toLowerCase();
 
   if (unit.includes("week")) return num * 7 * 24 * 60 * 60 * 1000;
   if (unit.includes("day")) return num * 24 * 60 * 60 * 1000;
@@ -521,10 +521,17 @@ const parseDuration = (durationStr) => {
   return 0;
 };
 
+// Default duration if event.duration is missing/invalid → 1 hour
+const DEFAULT_DURATION_MS = 60 * 60 * 1000;
+
 export const getEventStatus = (event) => {
   const now = new Date();
   const eventStart = new Date(event.dateTime || event.startTime);
-  const durationMs = parseDuration(event.duration);
+
+  // Invalid/missing date → treat as upcoming
+  if (isNaN(eventStart)) return "upcoming";
+
+  const durationMs = parseDuration(event.duration) || DEFAULT_DURATION_MS;
   const eventEnd = new Date(eventStart.getTime() + durationMs);
 
   if (now < eventStart) {
@@ -536,6 +543,24 @@ export const getEventStatus = (event) => {
   }
 };
 
+// export const getEventStatus = (eventDateTime) => {
+//   const now = new Date();
+//   const eventTime = new Date(event.dateTime);
+
+//   if (now < eventTime) return "upcoming";
+
+//   // Same day, and current time >= event start
+//   if (
+//     now.toDateString() === eventTime.toDateString() &&
+//     now >= eventTime
+//   ) {
+//     return "ongoing";
+//   }
+
+//   return "expired";
+// };
+
+
 // Helper: get events by status
 export const getEventsByStatus = (status) => {
   return eventData.filter((event) => getEventStatus(event) === status);
@@ -545,6 +570,11 @@ export const getEventsByStatus = (status) => {
 export const getTimeUntilEvent = (dateTime) => {
   const now = new Date();
   const eventDate = new Date(dateTime);
+
+  if (isNaN(eventDate)) {
+    return { days: 0, hours: 0, minutes: 0, seconds: 0 };
+  }
+
   const timeDiff = eventDate.getTime() - now.getTime();
 
   if (timeDiff <= 0) {
@@ -552,11 +582,10 @@ export const getTimeUntilEvent = (dateTime) => {
   }
 
   const days = Math.floor(timeDiff / (1000 * 60 * 60 * 24));
-  const hours = Math.floor(
-    (timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60)
-  );
+  const hours = Math.floor((timeDiff % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
   const minutes = Math.floor((timeDiff % (1000 * 60 * 60)) / (1000 * 60));
   const seconds = Math.floor((timeDiff % (1000 * 60)) / 1000);
 
   return { days, hours, minutes, seconds };
 };
+

@@ -26,7 +26,8 @@ import {
 } from "lucide-react";
 import {
   eventData,
-  getEventStatus,
+  getEventsByStatus,
+   getEventStatus,
   getTimeUntilEvent,
 } from "../data/eventData";
 
@@ -110,16 +111,27 @@ const EventDetails = () => {
     }
   }, [id]);
 
-  useEffect(() => {
-    if (event && status === "upcoming") {
-      const updateCountdown = () => {
-        setTimeLeft(getTimeUntilEvent(event.dateTime));
-      };
-      updateCountdown();
-      const interval = setInterval(updateCountdown, 1000);
-      return () => clearInterval(interval);
+useEffect(() => {
+  if (!event) return;
+
+  const updateStatusAndCountdown = () => {
+    const newStatus = getEventStatus(event);
+    setStatus(newStatus);
+
+    if (newStatus === "upcoming") {
+      setTimeLeft(getTimeUntilEvent(event.dateTime));
+    } else {
+      setTimeLeft(null);
     }
-  }, [event, status]);
+  };
+
+  updateStatusAndCountdown();
+  const interval = setInterval(updateStatusAndCountdown, 1000);
+  return () => clearInterval(interval);
+}, [event]);
+
+
+
 
   const formatDate = (dateTime) =>
     new Date(dateTime).toLocaleDateString("en-US", {

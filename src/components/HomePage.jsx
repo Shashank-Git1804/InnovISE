@@ -456,8 +456,8 @@ const HomePage = () => {
                 Contact Info
               </h4>
               <p className="text-gray-400">
-                {/* Email: info@innovise.club<br />
-                Phone: +1 (555) 123-4567 */}
+                Email: 1am22is098@amceducation.in<br />
+                Phone: +91 8147220887
                 <div className="flex space-x-4">
                   <a
                     href="#contact"
