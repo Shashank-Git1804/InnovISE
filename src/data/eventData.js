@@ -113,7 +113,7 @@ export const eventData = [
     id: 2,
     title: "Anti-Ragging Awareness Campaign",
     dateTime: "2025-08-18T14:00:00",
-    duration: "1 Week",
+    duration: "2 Hours",
     overview:
       "Objective: To raise awareness about the harmful effects of ragging and promote respect, unity, and empathy in our campus community.",
 
@@ -177,74 +177,74 @@ export const eventData = [
 
     winners: {
       //NOTE - Do not delete
-      // event_1: [
-      //   {
-      //     place: "Winner",
-      //     event: "Logo Designing",
-      //     teamName: "Creative Minds",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/logo-designing-winner.pdf",
-      //   },
-      //   {
-      //     place: "Runner-up",
-      //     event: "Logo Designing",
-      //     teamName: "Visionary Artists",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/logo-designing-runner.pdf",
-      //   },
-      //   {
-      //     place: "2nd Runner-up",
-      //     event: "Logo Designing",
-      //     teamName: "Visionary Artists",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/logo-designing-runner.pdf",
-      //   },
-      //   {
-      //     place: "Winner",
-      //     event: "Short Videos & Reels",
-      //     teamName: "Unity Crew",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/short-videos-winner.pdf",
-      //   },
-      //   {
-      //     place: "Runner-up",
-      //     event: "Short Videos & Reels",
-      //     teamName: "Peace Makers",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/short-videos-runner.pdf",
-      //   },
-      // ],
+      event_1: [
+        {
+          place: "Winner",
+          event: "Logo Designing",
+          teamName: "Sushanth Sapare",
+          members: ["Sushanth Sapare",],
+          certificate: "/certificates/Logo_Designing_(1st).pdf",
+        },
+        {
+          place: "Runner-up",
+          event: "Logo Designing",
+          teamName: "Harsha N U",
+          members: ["Harsha N U",],
+          certificate: "/certificates/Logo_Designing_(2nd).pdf",
+        },
+        {
+          place: "2nd Runner-up",
+          event: "Logo Designing",
+          teamName: "Anmol Panigrahi",
+          members: ["Anmol Panigrahi",],
+          certificate: "/certificates/Logo_Designing_(3rd).pdf",
+        },
+        // {
+        //   place: "Winner",
+        //   event: "Short Videos & Reels",
+        //   teamName: "Unity Crew",
+        //   members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
+        //   certificate: "/certificates/short-videos-winner.pdf",
+        // },
+        // {
+        //   place: "Runner-up",
+        //   event: "Short Videos & Reels",
+        //   teamName: "Peace Makers",
+        //   members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
+        //   certificate: "/certificates/short-videos-runner.pdf",
+        // },
+      ],
       //NOTE - Do not delete
-      // event_2: [
-      //   {
-      //     place: "Winner",
-      //     event: "Street Play",
-      //     teamName: "Stage Warriors",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/street-play-winner.pdf",
-      //   },
-      //   {
-      //     place: "Runner-up",
-      //     event: "Street Play",
-      //     teamName: "Drama Force",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/street-play-runner.pdf",
-      //   },
-      //   {
-      //     place: "Winner",
-      //     event: "Poster Making",
-      //     teamName: "Artivists",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/poster-making-winner.pdf",
-      //   },
-      //   {
-      //     place: "Runner-up",
-      //     event: "Poster Making",
-      //     teamName: "Color Splash",
-      //     members: ["Emily Davis", "James Wilson", "Lisa Zhang"],
-      //     certificate: "/certificates/poster-making-runner.pdf",
-      //   },
-      // ],
+      event_2: [
+        {
+          place: "Winner",
+          event: "Hand Poster Making",
+          teamName: "Ananya K",
+          members: ["Ananya K",],
+          certificate: "/certificates/Hand_Made_Poster_(1st).pdf",
+        },
+        {
+          place: "Runner-up",
+          event: "Hand Poster Making",
+          teamName: "Harini A",
+          members: ["Harini A"],
+          certificate: "/certificates/Hand_Made_Poster_(2nd).pdf",
+        },
+        {
+          place: "Winner",
+          event: "Digital Poster Making",
+          teamName: "Prateek G K",
+          members: ["Prateek G K",],
+          certificate: "/certificates/Digital_Poster_Designing_(1st).pdf",
+        },
+        {
+          place: "Runner-up",
+          event: "Digital  Poster Making",
+          teamName: "Sushanth Sapare",
+          members: ["Sushanth Sapare",],
+          certificate: "/certificates/Digital_Poster_Designing_(2nd).pdf",
+        },
+      ],
     },
   },
   //NOTE - Do not delete
