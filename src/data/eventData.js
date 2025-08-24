@@ -3,7 +3,7 @@ export const eventData = [
   {
     id: 1,
     title: "DecodeX – Tech Escape Room",
-    dateTime: "2025-08-22T14:00:00",
+    dateTime: "2025-09-03T14:00:00",
     duration: "2 Hours",
     overview:
       "A round-based coding puzzle challenge where teams race against the clock to unlock the final solution.",
