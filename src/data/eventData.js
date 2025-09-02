@@ -3,7 +3,7 @@ export const eventData = [
   {
     id: 1,
     title: "DecodeX – Tech Escape Room",
-    dateTime: "2025-09-03T14:00:00",
+    dateTime: "2025-09-12T14:00:00",
     duration: "2 Hours",
     overview:
       "A round-based coding puzzle challenge where teams race against the clock to unlock the final solution.",
@@ -52,7 +52,7 @@ export const eventData = [
       },
     ],
     poster_pdf: "/poster_pdf/DecodeX.pdf",
-    poster: "/images/DecodeX_Poster.png",
+    poster: "/images/DecodeX_Poster.jpeg",
     googleFormLink:
       "https://docs.google.com/forms/d/e/1FAIpQLScGdzhEAHIFk7jdWxlDP5cMJnqLfh1L_Mgz7b39x1wj06GvaQ/viewform",
     qrCodeImage: "/images/DecodeX.jpg",
