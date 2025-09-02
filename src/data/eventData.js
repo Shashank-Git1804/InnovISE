@@ -52,7 +52,7 @@ export const eventData = [
       },
     ],
     poster_pdf: "/poster_pdf/DecodeX.pdf",
-    poster: "/images/DecodeX_Poster.jpeg",
+    poster: "/images/DecodeX_Poster.png",
     googleFormLink:
       "https://docs.google.com/forms/d/e/1FAIpQLScGdzhEAHIFk7jdWxlDP5cMJnqLfh1L_Mgz7b39x1wj06GvaQ/viewform",
     qrCodeImage: "/images/DecodeX.jpg",
